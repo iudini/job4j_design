@@ -35,7 +35,7 @@ public class ListUtils {
             if (filter.test(list.get(i.nextIndex()))) {
                 i.next();
                 i.remove();
-                break;
+                continue;
             }
             i.next();
         }

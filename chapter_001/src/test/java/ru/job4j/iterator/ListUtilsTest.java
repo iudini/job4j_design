@@ -34,8 +34,8 @@ public class ListUtilsTest {
     @Test
     public void whenRemoveIf() {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3));
-        input = ListUtils.removeIf(input, x -> x == 2);
-        assertThat(Arrays.asList(1, 3), Is.is(input));
+        input = ListUtils.removeIf(input, x -> x >= 2);
+        assertThat(Arrays.asList(1), Is.is(input));
     }
 
     @Test
