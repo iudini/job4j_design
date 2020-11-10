@@ -2,6 +2,7 @@ package ru.job4j.collection;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SimpleSet<T> implements Iterable<T> {
 
@@ -16,7 +17,7 @@ public class SimpleSet<T> implements Iterable<T> {
     private boolean check(T t) {
         Iterator<T> iterator = array.iterator();
         while (iterator.hasNext()) {
-            if (iterator.next().equals(t)) {
+            if (Objects.equals(iterator.next(), t)) {
                 return false;
             }
         }
