@@ -4,6 +4,7 @@ import java.util.*;
 
 public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
 
+    private final float LOAD_FACTOR = 0.75f;
     private int capacity = 16;
     private int size = 0;
     private int modCount = 0;
@@ -14,7 +15,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
     }
 
     boolean insert(K key, V value) {
-        if (size >= capacity * 0.75) {
+        if (size >= capacity * LOAD_FACTOR) {
             grow();
         }
         int index = index(key);
@@ -28,7 +29,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
     }
 
     private void grow() {
-        capacity = size * 3 / 2 + 1;
+        capacity = size * 2;
         Node<K, V>[] newSizeMap = new Node[capacity];
         size = 0;
         for (var node : container) {
@@ -44,7 +45,10 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
         if (container[index] == null) {
             return null;
         }
-        return container[index].getValue();
+        if (Objects.equals(key, container[index].getKey())) {
+            return container[index].getValue();
+        }
+        return null;
     }
 
     boolean delete(K key){
@@ -52,10 +56,13 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
         if (container[index] == null) {
             return false;
         }
-        container[index] = null;
-        size--;
-        modCount++;
-        return true;
+        if (Objects.equals(key, container[index].getKey())) {
+            container[index] = null;
+            size--;
+            modCount++;
+            return true;
+        }
+        return false;
     }
 
     @Override
