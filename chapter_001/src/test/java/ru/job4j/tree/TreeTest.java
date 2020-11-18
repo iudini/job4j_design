@@ -29,6 +29,7 @@ public class TreeTest {
                 is(false)
         );
     }
+<<<<<<< HEAD
 
     @Test
     public void whenIsNotBinary() {
@@ -57,4 +58,6 @@ public class TreeTest {
                 is(true)
         );
     }
+=======
+>>>>>>> origin/master
 }

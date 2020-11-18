@@ -35,6 +35,7 @@ class Tree<E> implements SimpleTree<E> {
         }
         return rsl;
     }
+<<<<<<< HEAD
 
     public boolean isBinary() {
         boolean rsl = true;
@@ -50,4 +51,6 @@ class Tree<E> implements SimpleTree<E> {
         }
         return rsl;
     }
+=======
+>>>>>>> origin/master
 }
