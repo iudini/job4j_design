@@ -51,7 +51,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
         return null;
     }
 
-    boolean delete(K key){
+    boolean delete(K key) {
         int index = index(key);
         if (container[index] == null) {
             return false;
@@ -111,11 +111,15 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             Node<?, ?> node = (Node<?, ?>) o;
-            return Objects.equals(key, node.key) &&
-                    Objects.equals(value, node.value);
+            return Objects.equals(key, node.key)
+                    && Objects.equals(value, node.value);
         }
 
         @Override
