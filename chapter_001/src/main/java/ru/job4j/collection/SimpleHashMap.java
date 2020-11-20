@@ -4,7 +4,7 @@ import java.util.*;
 
 public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
 
-    private final float LOAD_FACTOR = 0.75f;
+    private static final float LOAD_FACTOR = 0.75f;
     private int capacity = 16;
     private int size = 0;
     private int modCount = 0;
