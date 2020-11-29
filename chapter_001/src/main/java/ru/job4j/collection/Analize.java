@@ -1,25 +1,20 @@
 package ru.job4j.collection;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Analize {
 
     public Info diff(List<User> previous, List<User> current) {
         Info info = new Info(0, 0, 0);
-        for (var prevUser : previous) {
-            int contains = 0;
-            for (User user : current) {
-                if (user.id == prevUser.id) {
-                    contains = 1;
-                    if (!user.name.equals(prevUser.name)) {
-                        info.changed++;
-                    }
-                    break;
-                }
-            }
-            if (contains == 0) {
+        Map<Integer, String> map = new HashMap<>();
+        for (var user : current) {
+            map.put(user.id, user.name);
+        }
+        for (var user : previous) {
+            if (!map.containsKey(user.id)) {
                 info.deleted++;
+            } else if (!user.name.equals(map.get(user.id))) {
+                info.changed++;
             }
         }
         info.added = current.size() - previous.size() + info.deleted;
