@@ -1,9 +1,8 @@
 package ru.job4j.io;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.StringJoiner;
 
 public class Config {
@@ -45,5 +44,28 @@ public class Config {
 
     public static void main(String[] args) {
         System.out.println(new Config("app.properties"));
+    }
+
+    public static void unavailable(String source, String target) {
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(source));
+             PrintWriter writer = new PrintWriter(new BufferedOutputStream(
+                     new FileOutputStream(target)))) {
+            String serverDown = null;
+            while (reader.ready()) {
+                String status = reader.readLine();
+                if (serverDown == null && (status.startsWith("400") || status.startsWith("500"))) {
+                    writer.write(status.split(" ")[1] + ";");
+                    serverDown = status;
+                } else if (serverDown != null && (!status.isEmpty()
+                        && !status.startsWith("400") && !status.startsWith("500"))) {
+                    writer.write(status.split(" ")[1]);
+                    serverDown = null;
+                    writer.println();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
