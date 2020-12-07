@@ -74,12 +74,13 @@ public class Search {
 
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-            if (map.containsKey(file.getFileName().toString())
-                    && Files.size(map.get(file.getFileName().toString())) == Files.size(file)) {
-                paths.add(map.get(file.getFileName().toString()));
+            String fileName = file.getFileName().toString();
+            if (map.containsKey(fileName)
+                    && Files.size(map.get(fileName)) == Files.size(file)) {
+                paths.add(map.get(fileName));
                 paths.add(file);
             } else {
-                map.put(file.getFileName().toString(), file);
+                map.put(fileName, file);
             }
             return CONTINUE;
         }
