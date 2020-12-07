@@ -10,9 +10,11 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        search(start, "js").forEach(System.out::println);
-        duplicate(start).forEach(System.out::println);
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Must be 2 arguments, first is a root folder, second file extension.");
+        }
+        search(Paths.get(args[0]), args[1]).forEach(System.out::println);
+        duplicate(Paths.get(args[0])).forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, String ext) throws IOException {
