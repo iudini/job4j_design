@@ -24,7 +24,7 @@ public class Search {
     }
 
     public static List<Path> searchExclude(Path root, String ext) throws IOException {
-        SearchExclude searcher = new SearchExclude(p -> p.toFile().getName().endsWith(ext));
+        SearchFiles searcher = new SearchFiles(p -> !p.toFile().getName().endsWith(ext));
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();
     }
@@ -89,42 +89,6 @@ public class Search {
                 paths.add(file);
             } else {
                 map.put(fileName, file);
-            }
-            return CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-            return CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-            return CONTINUE;
-        }
-
-        public List<Path> getPaths() {
-            return paths;
-        }
-    }
-
-    private static class SearchExclude implements FileVisitor<Path> {
-        Predicate<Path> predicate;
-        List<Path> paths = new ArrayList<>();
-
-        public SearchExclude(Predicate<Path> predicate) {
-            this.predicate = predicate;
-        }
-
-        @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-            return CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-            if (!predicate.test(file)) {
-                paths.add(file);
             }
             return CONTINUE;
         }
