@@ -2,6 +2,7 @@ package ru.job4j.io;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +13,7 @@ public class ConsoleChat {
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
     List<String> answers = new ArrayList<>();
+    List<String> dialog = new LinkedList<>();
 
     public ConsoleChat(String path, String botAnswers) {
         this.path = path;
@@ -29,14 +31,15 @@ public class ConsoleChat {
                 } else if (line.equals(CONTINUE)) {
                     stop = false;
                 }
-                write(line);
+                dialog.add(line);
                 if (!stop) {
                     String answer = getAnswer();
                     System.out.println(answer);
-                    write(answer);
+                    dialog.add(answer);
                 }
                 line = reader.readLine();
             }
+            write();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,9 +60,11 @@ public class ConsoleChat {
         }
     }
 
-    private void write(String line) {
+    private void write() {
         try (PrintWriter bw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(path, true)))) {
-            bw.println(line);
+            for (var line : dialog) {
+                bw.println(line);
+            }
         } catch (Exception e) {
             e.printStackTrace();
 
