@@ -1,9 +1,11 @@
 package ru.job4j.serialization.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Shop {
     private final String name;
@@ -18,6 +20,22 @@ public class Shop {
         this.schedule = schedule;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isOpened() {
+        return opened;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public int[] getSchedule() {
+        return schedule;
+    }
+
     @Override
     public String toString() {
         return "Shop{"
@@ -29,22 +47,22 @@ public class Shop {
     }
 
     public static void main(String[] args) {
-        final Shop shop = new Shop("Lenta", true, new Building(2), 0, 24);
+        JSONObject jsonShop = new JSONObject("{\"floors\":2}");
 
-        final Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(shop));
+        List<Integer> list = new ArrayList<>();
+        list.add(8);
+        list.add(23);
+        JSONArray jsonSchedule = new JSONArray(list);
 
-        final String shopToJson =
-                "{"
-                + "\"name\"=\"Auschan\","
-                + "\"opened\"=false,"
-                + "\"building\":"
-                + "{"
-                + "\"floors\":1"
-                + "},"
-                + "\"schedule\":[8,22]"
-                + "}";
-        final Shop shopFromJson = gson.fromJson(shopToJson, Shop.class);
-        System.out.println(shopFromJson);
+        final Shop shop = new Shop("Mega", true, new Building(3), 10, 22);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", shop.name);
+        jsonObject.put("opened", shop.opened);
+        jsonObject.put("building", jsonShop);
+        jsonObject.put("schedule", jsonSchedule);
+
+        System.out.println(jsonObject.toString());
+
+        System.out.println(new JSONObject(shop));
     }
 }

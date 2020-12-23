@@ -7,6 +7,10 @@ public class Building {
         this.floors = floors;
     }
 
+    public int getFloors() {
+        return floors;
+    }
+
     @Override
     public String toString() {
         return "Building{"
