@@ -12,7 +12,7 @@ public class ShellTest {
         Shell shell = new Shell();
         shell.cd("/user/..");
         assertThat(
-                shell.pwd(), is("/")
+                shell.pwd(), is("\\")
         );
     }
 
@@ -21,7 +21,7 @@ public class ShellTest {
         Shell shell = new Shell();
         shell.cd("/");
         assertThat(
-                shell.pwd(), is("/")
+                shell.pwd(), is("C:\\")
         );
     }
 
@@ -31,7 +31,7 @@ public class ShellTest {
         shell.cd("user");
         shell.cd("local");
         assertThat(
-                shell.pwd(), is("/user/local")
+                shell.pwd(), is("user\\local")
         );
     }
 
@@ -41,7 +41,7 @@ public class ShellTest {
         shell.cd("user");
         shell.cd("..");
         assertThat(
-                shell.pwd(), is("/")
+                shell.pwd(), is("\\")
         );
     }
 }

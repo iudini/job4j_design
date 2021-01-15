@@ -1,36 +1,31 @@
 package ru.job4j.io;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Shell {
-    List<String> pathList = new LinkedList<>();
+    Path root = Paths.get("");
 
     public void cd(String path) {
-        if (path.contains("..")) {
-            if (path.equals("..")) {
-                if (pathList.size() != 0) {
-                    pathList.remove(pathList.size() - 1);
-                }
-            } else {
-                String[] paths = path.split("/");
-                pathList.addAll(Arrays.asList(paths).subList(0, paths.length - 2));
-            }
+        Path absPath = root;
+        if (path.equals("/")) {
+            root = root.toAbsolutePath().getRoot();
         } else {
-            pathList.addAll(Arrays.asList(path.split("/")));
+            String[] str = path.split("/");
+            for (String s : str) {
+                if (s.equals("..") && absPath.getParent() == null) {
+                    absPath = Paths.get("/");
+                } else if (s.equals("..")) {
+                    absPath = absPath.getParent();
+                } else {
+                    absPath = absPath.resolve(s);
+                }
+            }
+            root = absPath;
         }
     }
 
     public String pwd() {
-        StringBuilder result = new StringBuilder();
-        for (String path : pathList) {
-            result.append("/");
-            result.append(path);
-        }
-        if (result.length() == 0) {
-            result.append("/");
-        }
-        return result.toString();
+        return root.toString();
     }
 }
