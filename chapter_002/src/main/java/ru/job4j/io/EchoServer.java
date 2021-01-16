@@ -18,17 +18,18 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
-                    String str;
+                    String str = in.readLine();
                     String message = "";
-                    while (!(str = in.readLine()).isEmpty()) {
+                    while (!str.isEmpty()) {
                         if (str.equals("GET /?msg=Exit HTTP/1.1")) {
                             run = false;
                         } else if (str.equals("GET /?msg=Hello HTTP/1.1")) {
                             message = "Hello";
-                        } else if (message.isEmpty()){
+                        } else if (message.isEmpty()) {
                             message = "What?";
                         }
                         System.out.println(str);
+                        str = in.readLine();
                     }
                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     out.write(message.getBytes());

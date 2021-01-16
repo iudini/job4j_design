@@ -48,7 +48,7 @@ public class FindFileByCriteria {
 
     public static List<Path> searchByMask(String dir, String name) throws IOException {
         Path root = Paths.get(dir);
-        String regex = name.replace("*","(.*)");
+        String regex = name.replace("*", "(.*)");
         SearchFiles searcher = new SearchFiles(p -> p.getFileName().toString().matches(regex));
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();
