@@ -8,6 +8,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
@@ -24,13 +25,7 @@ public class FindFileByCriteria {
                     + " ключ -f по имени -m по маске -r по регулярному выражению");
         }
         try (PrintWriter out = new PrintWriter(new FileWriter(criteria.getOutput()))) {
-            if (criteria.getMfr().equals("-f")) {
-                list = searchByFullName(criteria.getDirectory(), criteria.getName());
-            } else if (criteria.getMfr().equals("-m")) {
-                list = searchByMask(criteria.getDirectory(), criteria.getName());
-            } else if (criteria.getMfr().equals("-r")) {
-                list = searchByRegex(criteria.getDirectory(), criteria.getName());
-            }
+            list = search(criteria.getDirectory(), getPredicate(criteria.getMfr(), criteria.getName()));
             for (Path path : list) {
                 out.println(path.toString());
             }
@@ -39,24 +34,24 @@ public class FindFileByCriteria {
         }
     }
 
-    private static List<Path> searchByRegex(String dir, String name) throws IOException {
-        Path root = Paths.get(dir);
-        SearchFiles searcher = new SearchFiles(p -> p.getFileName().toString().matches(name));
-        Files.walkFileTree(root, searcher);
-        return searcher.getPaths();
+    private static Predicate<Path> getPredicate(String mfr, String name) {
+        Predicate<Path> predicate = null;
+        if (mfr.equals("-f")) {
+            predicate = p -> p.getFileName().toString().equals(name);
+        } else if (mfr.equals("-m")) {
+            String regex = name.replace("*", "(.*)");
+            Pattern regPattern = Pattern.compile(regex);
+            predicate = p -> regPattern.matcher(p.getFileName().toString()).matches();
+        } else if (mfr.equals("-r")) {
+            Pattern pattern = Pattern.compile(name);
+            predicate = p -> pattern.matcher(p.getFileName().toString()).matches();
+        }
+        return predicate;
     }
 
-    public static List<Path> searchByMask(String dir, String name) throws IOException {
+    private static List<Path> search(String dir, Predicate<Path> predicate) throws IOException {
         Path root = Paths.get(dir);
-        String regex = name.replace("*", "(.*)");
-        SearchFiles searcher = new SearchFiles(p -> p.getFileName().toString().matches(regex));
-        Files.walkFileTree(root, searcher);
-        return searcher.getPaths();
-    }
-
-    public static List<Path> searchByFullName(String dir, String name) throws IOException {
-        Path root = Paths.get(dir);
-        SearchFiles searcher = new SearchFiles(p -> p.toFile().getName().equals(name));
+        SearchFiles searcher = new SearchFiles(predicate);
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();
     }
