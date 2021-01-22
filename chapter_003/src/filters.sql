@@ -22,9 +22,10 @@ where t.name = 'СЫР';
 
 select * from product where name like '%мороженное%';
 
-select * from product where expired_date
-    between (date_trunc('month', current_date) + interval '1 month')
-    and (date_trunc('month', current_date) + interval '2 month');
+select * from product where expired_date >= date_trunc('month', current_date + interval '1 month')
+                        and expired_date < date_trunc('month', current_date + interval '2 month');
+
+select * from product where date_part('month', expired_date) = date_part('month', current_date + interval '1 month');
 
 select * from product order by price desc limit 1;
 
