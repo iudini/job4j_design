@@ -17,11 +17,12 @@ public class Cache {
     public String get(String name) {
         String rsl;
         SoftReference<String> rslSoft = storage.get(name);
-        if (rslSoft != null) {
-            rsl = rslSoft.get();
-        } else {
+        if (rslSoft == null) {
+            return load(name);
+        }
+        rsl = rslSoft.get();
+        if (rsl == null) {
             rsl = load(name);
-            storage.put(name, new SoftReference<>(rsl));
         }
         return rsl;
     }
@@ -30,6 +31,7 @@ public class Cache {
         StringBuilder stringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(directory + name))) {
             br.lines().forEach(str -> stringBuilder.append(str).append(System.lineSeparator()));
+            storage.put(name, new SoftReference<>(stringBuilder.toString()));
         } catch (Exception e) {
             e.printStackTrace();
         }
