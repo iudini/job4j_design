@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SimpleCopyLinesIntoFile implements СopyLinesIntoFile {
+public class SimpleCopyLinesIntoFile implements CopyLinesIntoFile {
     /* нарушение в том, что получаем строки из файла в этом классе,
     а надо было иметь уже сразу готорый лист строк
      */
