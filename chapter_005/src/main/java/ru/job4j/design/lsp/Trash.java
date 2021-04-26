@@ -7,12 +7,17 @@ public class Trash implements Storage {
     List<Food> stock = new ArrayList<>();
 
     @Override
-    public void add(Food food) {
-        stock.add(food);
+    public List<Food> get() {
+        return stock;
     }
 
     @Override
-    public List<Food> get() {
-        return stock;
+    public boolean accept(Food food) {
+        int check = CheckExpire.check(food);
+        if (check <= 0) {
+            stock.add(food);
+            return true;
+        }
+        return false;
     }
 }
