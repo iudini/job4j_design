@@ -11,6 +11,9 @@ public class Food {
     double discount;
 
     public Food(String name, LocalDate expireDate, LocalDate createDate, double price, double discount) {
+        if (createDate.compareTo(expireDate) > 0) {
+            throw new IllegalArgumentException(createDate + " after " + expireDate);
+        }
         this.name = name;
         this.expireDate = expireDate;
         this.createDate = createDate;

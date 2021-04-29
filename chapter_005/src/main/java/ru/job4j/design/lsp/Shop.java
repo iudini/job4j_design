@@ -8,7 +8,11 @@ public class Shop implements Storage {
 
     @Override
     public List<Food> get() {
-        return stock;
+        List<Food> rsl = new ArrayList<>();
+        for (Food food : stock) {
+            rsl.add(new Food(food.name, food.expireDate, food.createDate, food.price, food.discount));
+        }
+        return rsl;
     }
 
     @Override
