@@ -7,28 +7,16 @@ import static org.junit.Assert.*;
 public class ParkingTest {
 
     @Test
-    public void whenParkPassengerCarInPassengerParking() {
-        Parking parking = new PassengerCarParking(100);
-        Car car = new PassengerCar();
-        assertTrue(parking.park(car));
-    }
-
-    @Test
-    public void whenParkTruckInPassengerParking() {
-        Parking parking = new PassengerCarParking(100);
-        Car car = new Truck(3);
-        assertTrue(parking.park(car));
-    }
-
-    @Test
     public void whenParkTruckInSmallPassengerParking() {
-        Parking parking = new PassengerCarParking(2);
-        Car car = new Truck(3);
-        assertFalse(parking.park(car));
+        Parking parking = new MixedParking(2, 1);
+        Car car1 = new Truck(3);
+        Car car2 = new Truck(3);
+        parking.park(car1);
+        assertFalse(parking.park(car2));
     }
 
     @Test
-    public void whenParkInMixedParking() {
+    public void whenPark() {
         Parking parking = new MixedParking(100, 20);
         Car car = new Truck(3);
         Car car2 = new PassengerCar();
@@ -37,16 +25,18 @@ public class ParkingTest {
     }
 
     @Test
-    public void whenParkTruckInTruckParking() {
-        Parking parking = new TruckParking(100);
+    public void whenParkTruck() {
+        Parking parking = new MixedParking(100, 20);
         Car car = new Truck(3);
         assertTrue(parking.park(car));
     }
 
     @Test
-    public void whenParkPassengerCarInTruckParking() {
-        Parking parking = new TruckParking(100);
-        Car car = new PassengerCar();
-        assertFalse(parking.park(car));
+    public void whenParkTruckInPassengerCarPlace() {
+        Parking parking = new MixedParking(100, 1);
+        Car car1 = new Truck(3);
+        Car car2 = new Truck(3);
+        parking.park(car1);
+        assertTrue(parking.park(car2));
     }
 }
