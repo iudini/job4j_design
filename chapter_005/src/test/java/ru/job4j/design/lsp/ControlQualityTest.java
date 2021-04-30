@@ -15,12 +15,12 @@ public class ControlQualityTest {
         List<Storage> storages = List.of(new Warehouse());
         ControlQuality cq = new ControlQuality(storages);
         Food meat = new Meat("Meat",
-                LocalDate.of(2021, 7, 30),
+                LocalDate.of(2021, 12, 30),
                 LocalDate.of(2021, 4, 1),
                 100,
                 0);
         cq.add(meat);
-        assertThat(((Food) storages.get(0).get().get(0)).name, is("Meat"));
+        assertThat(((Food) storages.get(0).get().get(0)).getName(), is("Meat"));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class ControlQualityTest {
                 100,
                 0);
         cq.add(milk);
-        assertThat(((Food) storages.get(0).get().get(0)).name, is("Milk"));
+        assertThat(((Food) storages.get(0).get().get(0)).getName(), is("Milk"));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ControlQualityTest {
                 100,
                 0);
         cq.add(milk);
-        assertThat(((Food) storages.get(0).get().get(0)).discount, is(0.25));
+        assertThat(((Food) storages.get(0).get().get(0)).getDiscount(), is(0.25));
     }
 
     @Test
@@ -59,6 +59,6 @@ public class ControlQualityTest {
                 100,
                 0);
         cq.add(egg);
-        assertThat(((Food) storages.get(0).get().get(0)).name, is("Egg"));
+        assertThat(((Food) storages.get(0).get().get(0)).getName(), is("Egg"));
     }
 }

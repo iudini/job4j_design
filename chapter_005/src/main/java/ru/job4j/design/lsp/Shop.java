@@ -10,7 +10,13 @@ public class Shop implements Storage {
     public List<Food> get() {
         List<Food> rsl = new ArrayList<>();
         for (Food food : stock) {
-            rsl.add(new Food(food.name, food.expireDate, food.createDate, food.price, food.discount));
+            rsl.add(new Food(
+                    food.getName(),
+                    food.getExpireDate(),
+                    food.getCreateDate(),
+                    food.getPrice(),
+                    food.getDiscount()
+            ));
         }
         return rsl;
     }
