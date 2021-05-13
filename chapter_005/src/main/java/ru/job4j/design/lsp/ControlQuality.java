@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControlQuality {
-    private final List<Storage> storages;
+    private final CQStorage storage;
 
-    public ControlQuality(List<Storage> storages) {
-        this.storages = storages;
+    public ControlQuality(CQStorage storage) {
+        this.storage = storage;
     }
 
     public void add(Food food) {
-        for (Storage storage : storages) {
+        List<Storage> storageList = storage.getStorages();
+        for (var storage : storageList) {
             if (storage.accept(food)) {
                 break;
             }
@@ -19,8 +20,9 @@ public class ControlQuality {
     }
 
     public void resort() {
+        List<Storage> storageList = storage.getStorages();
         List<Food> temporaryStorage = new ArrayList<>();
-        for (var storage : storages) {
+        for (var storage : storageList) {
             temporaryStorage.addAll(storage.get());
             storage.clear();
         }
