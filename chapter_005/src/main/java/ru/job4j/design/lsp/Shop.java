@@ -35,4 +35,9 @@ public class Shop implements Storage {
         }
         return false;
     }
+
+    @Override
+    public void clear() {
+        stock = new ArrayList<>();
+    }
 }

@@ -4,5 +4,7 @@ import java.util.List;
 
 public interface Store {
 
-    <T> List<T> get();
+    List<Food> get();
+
+    void clear();
 }

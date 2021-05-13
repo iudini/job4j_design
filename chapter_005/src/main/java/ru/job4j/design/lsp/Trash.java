@@ -30,4 +30,9 @@ public class Trash implements Storage {
         }
         return false;
     }
+
+    @Override
+    public void clear() {
+        stock = new ArrayList<>();
+    }
 }

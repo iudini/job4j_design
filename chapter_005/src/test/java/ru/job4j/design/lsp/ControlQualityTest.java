@@ -28,7 +28,7 @@ public class ControlQualityTest {
         List<Storage> storages = List.of(new Shop());
         ControlQuality cq = new ControlQuality(storages);
         Food milk = new Milk("Milk",
-                LocalDate.of(2021, 5, 30),
+                LocalDate.of(2021, 7, 30),
                 LocalDate.of(2021, 1, 1),
                 100,
                 0);
@@ -41,8 +41,8 @@ public class ControlQualityTest {
         List<Storage> storages = List.of(new Shop());
         ControlQuality cq = new ControlQuality(storages);
         Food milk = new Milk("Milk",
-                LocalDate.of(2021, 5, 3),
-                LocalDate.of(2021, 4, 1),
+                LocalDate.of(2021, 5, 31),
+                LocalDate.of(2021, 1, 1),
                 100,
                 0);
         cq.add(milk);
@@ -60,5 +60,21 @@ public class ControlQualityTest {
                 0);
         cq.add(egg);
         assertThat(((Food) storages.get(0).get().get(0)).getName(), is("Egg"));
+    }
+
+    @Test
+    public void addToShopAfterChangeDatesAndResort() {
+        List<Storage> storages = List.of(new Shop());
+        ControlQuality cq = new ControlQuality(storages);
+        Food milk = new Milk("Milk",
+                LocalDate.of(2021, 7, 30),
+                LocalDate.of(2021, 1, 1),
+                100,
+                0);
+        cq.add(milk);
+        milk.setExpireDate(LocalDate.of(2021, 5, 30));
+        cq.resort();
+        assertThat(((Food) storages.get(0).get().get(0)).getName(), is("Milk"));
+        assertThat(((Food) storages.get(0).get().get(0)).getDiscount(), is(0.25));
     }
 }
