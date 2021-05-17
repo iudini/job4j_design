@@ -13,12 +13,10 @@ public class Shop implements Storage {
     public boolean accept(Food food) {
         int check = CheckExpire.check(food);
         if (check > 25 && check <= 75) {
-            store.add(food);
             return true;
         }
         if (check > 0 && check <= 25) {
             food.setDiscount(0.25);
-            store.add(food);
             return true;
         }
         return false;

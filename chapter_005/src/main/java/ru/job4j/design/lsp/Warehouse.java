@@ -13,7 +13,6 @@ public class Warehouse implements Storage {
     public boolean accept(Food food) {
         int check = CheckExpire.check(food);
         if (check > 75) {
-            store.add(food);
             return true;
         }
         return false;

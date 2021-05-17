@@ -14,7 +14,6 @@ public class Trash implements Storage {
     public boolean accept(Food food) {
         int check = CheckExpire.check(food);
         if (check <= 0) {
-            store.add(food);
             return true;
         }
         return false;
